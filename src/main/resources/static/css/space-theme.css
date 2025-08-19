@@ -1,0 +1,178 @@
+body {
+    background-color: #0a0a1a;
+    color: #e0e0ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    position: relative; /* For stars positioning */
+    overflow: hidden; /* Hide stars outside viewport */
+}
+
+header {
+    background-color: #1a1a3a;
+    padding: 15px 20px;
+    border-bottom: 1px solid #3a3a6a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative; /* For z-index to work */
+    z-index: 10; /* Bring header to front */
+}
+
+.brand {
+    color: #a0a0ff;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+main {
+    padding: 40px;
+    text-align: center;
+    position: relative; /* For z-index to work */
+    z-index: 5; /* Bring main content to front */
+}
+
+h1 {
+    color: #c0c0ff;
+    font-size: 48px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(160, 160, 255, 0.5);
+}
+
+a {
+    color: #8080ff;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #c0c0ff;
+}
+
+button {
+    background-color: #404080;
+    color: #e0e0ff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #5050a0;
+}
+
+form {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #1a1a3a;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid #3a3a6a;
+}
+
+form div {
+    margin-bottom: 20px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #c0c0ff;
+    font-size: 1.1em;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form textarea {
+    width: calc(100% - 20px);
+    padding: 12px;
+    border: 1px solid #4a4a7a;
+    border-radius: 5px;
+    background-color: #0a0a1a;
+    color: #e0e0ff;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus,
+form textarea:focus {
+    border-color: #8080ff;
+}
+
+form button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+/* Error message styling */
+div[th:if="${#fields.hasErrors('*')}"],
+div[th:if="${error}"] {
+    color: #ff6b6b !important;
+    font-size: 0.9em;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+#floating-sun {
+    position: absolute;
+    width: 150px; /* 태양 크기 */
+    height: 150px;
+    background: radial-gradient(circle at 30% 30%, #ffcc00, #ff9900, #cc3300); /* 태양 그라데이션 */
+    border-radius: 50%;
+    box-shadow: 0 0 30px 10px rgba(255, 150, 0, 0.5), /* 빛나는 효과 줄임 */
+                0 0 60px 20px rgba(255, 100, 0, 0.3);
+    z-index: -1; /* 별(-2)보다 높고, 콘텐츠(5, 10)보다 낮게 */
+    animation: float-sun 20s infinite alternate ease-in-out; /* 떠다니는 애니메이션 */
+}
+
+@keyframes float-sun {
+    0% { /* top과 left는 JavaScript에서 설정 */ transform: scale(1); }
+    25% { top: 80%; left: 30%; transform: scale(1.1); }
+    50% { top: 20%; left: 70%; transform: scale(0.9); }
+    75% { top: 60%; left: 5%; transform: scale(1.05); }
+    100% { top: 10%; left: 10%; transform: scale(1); }
+}
+
+/* 행성 스타일 */
+.planet {
+    position: absolute;
+    width: 20px; /* 행성 크기 */
+    height: 20px;
+    background-color: #6699cc; /* 행성 색상 (푸른 계열) */
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(102, 153, 204, 0.7);
+    transform-origin: 50% 50%; /* 공전의 중심을 태양 중심으로 */
+    animation: orbit 15s linear infinite; /* 공전 애니메이션 */
+    z-index: 1; /* 태양(z-index: -1)보다 높게, 콘텐츠(z-index: 5)보다 낮게 */
+}
+
+/* 궤도 스타일 */
+.orbit {
+    position: absolute;
+    width: 200px; /* 궤도 크기 (태양 크기 + 행성 공전 반경) */
+    height: 200px;
+    border: 1px dashed rgba(255, 255, 255, 0.1); /* 희미한 점선 궤도 */
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 태양 중심으로 정렬 */
+    z-index: 0; /* 태양(-1)과 행성(1) 사이에 위치 */
+}
+
+/* 행성 공전 애니메이션 */
+@keyframes orbit {
+    from { transform: rotate(0deg) translateX(100px) rotate(0deg); } /* translateX는 궤도 반경 */
+    to { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+}
