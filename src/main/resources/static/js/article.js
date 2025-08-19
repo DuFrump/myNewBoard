@@ -1,3 +1,5 @@
+/* 저장 및 푸시를 위한 주석 */
+
 function csrf() {
   const token = document.querySelector('meta[name="_csrf"]')?.content;
   const header = document.querySelector('meta[name="_csrf_header"]')?.content || 'X-CSRF-TOKEN';
