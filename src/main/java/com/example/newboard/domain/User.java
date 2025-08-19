@@ -13,13 +13,13 @@ public class User {
     private String email;
 
     @Column(nullable=false, length=60)
-    private String password; // BCrypt 해시
+    private String password;
 
     @Column(nullable=false, length=50)
     private String name;
 
     @Column(nullable=false, length=20)
-    private String role; // "USER"
+    private String role;
 
     private User(String email, String name) {
         this.email = email;

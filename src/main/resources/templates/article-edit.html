@@ -10,7 +10,7 @@
 <body>
 <h1>글 수정</h1>
 <form th:action="@{'/articles/' + ${article.id} + '/edit'}" method="post">
-    <input type="hidden" id="article-id" th:value="${article} != null ? ${article.id} : ''" />
+    <input type="hidden" id="article-id" th:value="${article} != null ? ${article.id} : ''"/>
     <div>
         <label>제목
             <input type="text" id="title" name="title" th:value="${article.title}" required>
