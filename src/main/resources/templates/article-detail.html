@@ -29,14 +29,16 @@
 <main>
     <h1 th:text="${article.title}">제목</h1>
     <input type="hidden" id="article-id" th:value="${article.id}">
-    <div th:text="${article.content}">내용</div>
-
-    <div th:if="${isOwner}">
-        <a th:href="@{'/articles/' + ${article.id} + '/edit'}" id="modify-btn-link">기록 수정</a>
-        <button id="delete-btn">기록 삭제</button>
+    <div class="article-content-box">
+        <div th:text="${article.content}">내용</div>
     </div>
 
-    <p><a href="/articles">기록 목록으로</a></p>
+    <div th:if="${isOwner}">
+        <a th:href="@{'/articles/' + ${article.id} + '/edit'}" id="modify-btn-link" class="action-button">기록 수정</a>
+        <button id="delete-btn" class="action-button">기록 삭제</button>
+    </div>
+
+    <p><a href="/articles" class="action-button">기록 목록으로</a></p>
 </main>
 <script src="/js/article.js" defer></script>
 <script src="/js/star-effect.js" defer></script>

@@ -18,25 +18,29 @@
         <a href="/join">별자리 합류</a>
       </span>
         <span sec:authorize="isAuthenticated()">
-        <span>안녕하세요, <strong th:text="${displayName}"></strong>님!</span>
-        <form method="post" action="/logout" style="display:inline;">
-          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-          <button type="submit">지구로 귀환</button>
-        </form>
+        <div class="user-controls">
+          <span>안녕하세요, <strong th:text="${displayName}"></strong>님!</span>
+          <form method="post" action="/logout" class="inline-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit">지구로 귀환</button>
+          </form>
+        </div>
       </span>
     </div>
 </header>
 <h1>우주 기록 보관소</h1>
-<div sec:authorize="isAuthenticated()">
-    <a href="/articles/new">새로운 기록 남기기</a> <!-- 비회원은 안 보임 -->
+<div class="article-list-container">
+    <div th:if="${#lists.isEmpty(articles)}">아직 기록된 우주 현상이 없습니다.</div>
+    <ul th:unless="${#lists.isEmpty(articles)}">
+        <li th:each="a : ${articles}">
+            <a th:href="@{'/articles/' + ${a.id}}" th:text="${a.title}">제목</a>
+        </li>
+    </ul>
 </div>
 
-<div th:if="${#lists.isEmpty(articles)}">아직 기록된 우주 현상이 없습니다.</div>
-<ul th:unless="${#lists.isEmpty(articles)}">
-    <li th:each="a : ${articles}">
-        <a th:href="@{'/articles/' + ${a.id}}" th:text="${a.title}">제목</a>
-    </li>
-</ul>
+<div sec:authorize="isAuthenticated()" class="new-record-button-container">
+    <a href="/articles/new">새로운 기록 남기기</a>
+</div>
 <script src="/js/star-effect.js" defer></script>
 </body>
 </html>

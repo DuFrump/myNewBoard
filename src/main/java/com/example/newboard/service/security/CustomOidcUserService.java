@@ -37,7 +37,7 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
         final String finalEmail = email;
         final String finalName  = u.getFullName() != null ? u.getFullName() : u.<String>getAttribute("name");
         userRepository.findByEmail(finalEmail)
-                .orElseGet(() -> userRepository.save(User.create(finalEmail, finalName)));
+                .orElseGet(() -> { User savedUser = userRepository.save(User.create(finalEmail, finalName)); userRepository.flush(); return savedUser; });
 
         return new DefaultOidcUser(
                 new HashSet<>(u.getAuthorities()),
