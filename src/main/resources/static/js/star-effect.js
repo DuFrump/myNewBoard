@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const numStars = 100; // 생성할 별의 개수
+    const numStars = 300; // 생성할 별의 개수
     const body = document.body;
 
     // 별 애니메이션을 위한 CSS 스타일 추가
