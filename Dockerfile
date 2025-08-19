@@ -1,8 +1,13 @@
 FROM gradle:8.7.0-jdk17 AS build
 WORKDIR /app
-COPY . .
+
+COPY build.gradle settings.gradle gradlew gradlew.bat /app/
+COPY gradle /app/gradle
 
 RUN sed -i 's/\r$//' gradlew && chmod +x gradlew
+RUN ./gradlew dependencies --no-daemon
+
+COPY . .
 
 RUN ./gradlew --no-daemon clean bootJar -x test
 

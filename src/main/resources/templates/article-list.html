@@ -6,6 +6,11 @@
     <title>게시글 목록</title>
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <style>
+        .pagination { display: flex; justify-content: center; list-style: none; padding: 0; }
+        .pagination li { margin: 0 5px; }
+        .pagination .active a { font-weight: bold; color: red; }
+    </style>
 </head>
 <body>
 <header>
@@ -25,15 +30,41 @@
     </div>
 </header>
 <h1>게시글 목록</h1>
-<div sec:authorize="isAuthenticated()">
-    <a href="/articles/new">새글</a> <!-- 비회원은 안 보임 -->
-</div>
 
-<div th:if="${#lists.isEmpty(articles)}">아직 글이 없습니다.</div>
-<ul th:unless="${#lists.isEmpty(articles)}">
-    <li th:each="a : ${articles}">
+<div th:if="${error}" style="color:red; border:1px solid red; padding: 10px; margin-bottom: 20px;"
+     th:text="${error}"></div>
+
+<div sec:authorize="isAuthenticated()">
+    <a href="/articles/new">새글</a> </div>
+
+<div th:if="${articlesPage.isEmpty()}">아직 글이 없습니다.</div>
+
+<ul th:unless="${articlesPage.isEmpty()}">
+    <li th:each="a : ${articlesPage.content}">
         <a th:href="@{'/articles/' + ${a.id}}" th:text="${a.title}">제목</a>
     </li>
 </ul>
+
+<nav th:if="${!articlesPage.isEmpty()}" aria-label="Page navigation">
+    <ul class="pagination">
+        <li th:if="${articlesPage.hasPrevious()}">
+            <a th:href="@{/articles(page=0, size=${articlesPage.size})}">처음</a>
+        </li>
+        <li th:classappend="${!articlesPage.hasPrevious()} ? 'disabled' : ''">
+            <a th:href="@{/articles(page=${articlesPage.number-1}, size=${articlesPage.size})}">이전</a>
+        </li>
+        <li th:each="i : ${#numbers.sequence(0, articlesPage.totalPages - 1)}"
+            th:classappend="${i == articlesPage.number} ? 'active' : ''">
+            <a th:href="@{/articles(page=${i}, size=${articlesPage.size})}" th:text="${i+1}">1</a>
+        </li>
+        <li th:classappend="${!articlesPage.hasNext()} ? 'disabled' : ''">
+            <a th:href="@{/articles(page=${articlesPage.number+1}, size=${articlesPage.size})}">다음</a>
+        </li>
+        <li th:if="${articlesPage.hasNext()}">
+            <a th:href="@{/articles(page=${articlesPage.totalPages-1}, size=${articlesPage.size})}">끝</a>
+        </li>
+    </ul>
+</nav>
+
 </body>
 </html>
